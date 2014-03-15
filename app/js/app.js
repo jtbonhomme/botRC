@@ -19,8 +19,8 @@
         },
         keyup: function(event) {
           console.log('keyup');
-          $.post( this.model.url + '/leftSpeed', { 'value': 0 } );
-          $.post( this.model.url + '/rightSpeed', { 'value': 0 } );
+          $.post( '/robot/leftSpeed', { 'value': 0 } );
+          $.post( '/robot/rightSpeed', { 'value': 0 } );
         },
         render: function () {
             console.log(this.model); // this.model has been populated!
