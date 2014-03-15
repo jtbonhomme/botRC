@@ -5,6 +5,7 @@
     'use strict';
 
     var RobotModel = Backbone.Model.extend({url: 'http://localhost:3000/robot'});
+    var BluetoothModel = Backbone.Model.extend({url: 'http://localhost:3000/bluetooth'});
 
     var RobotView = Backbone.View.extend({
         el: '#robot',
@@ -33,18 +34,32 @@
 
     });
 
+    // initialize socket
     var socket = io.connect('http://localhost');
+
+    // create models
     var robotModel = new RobotModel();
+    var bluetoothModel = new BluetoothModel();
+
+    // create robot views (all views share the same model)
     var robotView = new RobotView({ model: robotModel });
     var lspeedView = new global.LeftSpeedView({ model: robotModel });
     var rspeedView = new global.RightSpeedView({ model: robotModel });
     var ramView = new global.RamView({ model: robotModel });
     var batteryView = new global.BatteryView({ model: robotModel });
 
-    socket.on('update', function (data) {
-      console.log('received update : %o ', data);
-      robotModel.fetch(); // fetch the model from url on socket notification
-    });
+    // create bluetooth view
+    var bluetoothView = new global.BluetoothView({ model: bluetoothModel });
 
+    // wait for updates
+    socket.on('update', function (data) {
+        console.log('received update : %o ', data);
+        if( data.type === "bluetooth") {
+            bluetoothModel.fetch(); // fetch the model from url on socket notification
+        }
+        else if( data.type === "robot") {
+            robotModel.fetch(); // fetch the model from url on socket notification
+        }
+    });
 
 })(this);

@@ -75,6 +75,7 @@
             robot[req.params.name] = req.body.value;
             var msg = {
                 key: "emit",
+                type: "robot",
                 value: robot 
             };
             console.log("emit ", msg);
@@ -100,6 +101,7 @@
                 robot = data;
                 var msg = {
                     key: "emit",
+                    type: "robot",
                     value: robot 
                 };
                 console.log("emit ", msg);
@@ -127,19 +129,40 @@
         else {
             console.log("try connecting to " + req.body.address);
             serial.connect(req.body.address, req.body.channel, onBtConnect );
-            res.send('connection on-going', 200);
             bluetooth.connection = state.PENDING;
+            var msg = {
+                key: "emit",
+                type: "bluetooth",
+                value: bluetooth 
+            };
+            console.log("emit ", msg);
+            socket.emit('update', msg);
+            res.send('connection on-going', 200);
         }
     });
 
     function onBtConnect() {
         console.log("[onBtConnect]");
         bluetooth.connection = state.CONNECTED;
+        var msg = {
+            key: "emit",
+            type: "bluetooth",
+            value: bluetooth 
+        };
+        console.log("emit ", msg);
+        socket.emit('update', msg);
     }
 
     serial.on('finished', function(data) {
         console.log("End of bluetooth connection");
         bluetooth.connection = 0;
+        var msg = {
+            key: "emit",
+            type: "bluetooth",
+            value: bluetooth 
+        };
+        console.log("emit ", msg);
+        socket.emit('update', msg);
     });
 
     serial.on('data', function(data) {

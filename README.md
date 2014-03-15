@@ -9,6 +9,10 @@ Then open url :
 
 # Test
 
+To start a bluetooth connection
+
+    % curl -H "Content-Type:application/json" --data '{"address": "20-13-05-07-38-71", "channel": 1}'  -X POST localhost:3000/bluetooth
+
 To set left motor speed equal to 5
 
     % curl -H "Content-Type:application/json" --data '{"value":5}'  -X POST localhost:3000/robot/leftSpeed
