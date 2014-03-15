@@ -1,0 +1,22 @@
+body {
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  background-color: #252525;
+  font-family: 'Track';
+  font-size: 20px;
+  color: #e0e0e0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.data {
+  width: 1000px;
+  height: 700px;
+  background-color: #464646;
+  box-shadow: rgba(0, 0, 0, .2) 0 0 150px inset;
+  margin: 20px;
+  padding: 20px;
+  font-size: 30px;
+  color: #e0e0e0;
+}
+

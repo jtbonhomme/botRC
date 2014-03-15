@@ -1,0 +1,22 @@
+{
+  "browser": true,
+  "camelcase": true,
+  "curly": true,
+  "devel": true,
+  "eqeqeq": true,
+  "noarg": true,
+  "debug": true,
+  "trailing": true,
+  "strict": true,
+  "undef": true,
+  "es5": true,
+  "expr": true,
+  "newcap": false,
+  "validthis": true,
+  "predef": [
+    "LOGGER", "Application",
+    "Model", "Collection",
+    "$", "_",
+    "Backbone","Underscore","JQuery", "require", "Buffer", "io", "d3"
+  ]
+}
