@@ -26,8 +26,6 @@
             console.log(this.model); // this.model has been populated!
             var obj = this.model.attributes;
             this.el.innerHTML = "";
-            this.el.innerHTML += "battery    : " + obj.battery + "<br>";
-            this.el.innerHTML += "ram        : " + obj.ram + "<br>";
             this.el.innerHTML += "heading    : " + obj.heading + "<br>";
             this.el.innerHTML += "servoPos   : " + obj.servoPos + "<br>";
             this.el.innerHTML += "distance   : " + obj.distance + "<br>";
@@ -40,6 +38,8 @@
     var robotView = new RobotView({ model: robotModel });
     var lspeedView = new global.LeftSpeedView({ model: robotModel });
     var rspeedView = new global.RightSpeedView({ model: robotModel });
+    var ramView = new global.RamView({ model: robotModel });
+    var batteryView = new global.BatteryView({ model: robotModel });
 
     socket.on('update', function (data) {
       console.log('received update : %o ', data);
