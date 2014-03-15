@@ -1,6 +1,6 @@
 body {
-  width: 1280px;
-  height: 720px;
+  width: 640px;
+  height: 360px;
   overflow: hidden;
   background-color: #252525;
   font-family: 'Track';
@@ -10,13 +10,12 @@ body {
 }
 
 .data {
-  width: 1000px;
-  height: 700px;
+  width: 600px;
+  height: 300px;
   background-color: #464646;
   box-shadow: rgba(0, 0, 0, .2) 0 0 150px inset;
   margin: 20px;
   padding: 20px;
-  font-size: 30px;
   color: #e0e0e0;
 }
 

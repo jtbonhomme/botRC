@@ -1,12 +1,11 @@
 // mincer directives processor are listed bellow
-// require_tree libs
-// require_tree views
-// require_tree models
+//= require_tree views
 
 (function(global) {
     'use strict';
 
     var RobotModel = Backbone.Model.extend({url: 'http://localhost:3000/robot'});
+
     var RobotView = Backbone.View.extend({
         el: '#robot',
         initialize: function () {
@@ -19,8 +18,6 @@
             this.el.innerHTML = "";
             this.el.innerHTML += "battery    : " + obj.battery + "<br>";
             this.el.innerHTML += "ram        : " + obj.ram + "<br>";
-            this.el.innerHTML += "leftSpeed  : " + obj.leftSpeed + "<br>";
-            this.el.innerHTML += "rightSpeed : " + obj.rightSpeed + "<br>";
             this.el.innerHTML += "heading    : " + obj.heading + "<br>";
             this.el.innerHTML += "servoPos   : " + obj.servoPos + "<br>";
             this.el.innerHTML += "distance   : " + obj.distance + "<br>";
@@ -31,6 +28,8 @@
     var socket = io.connect('http://localhost');
     var robotModel = new RobotModel();
     var robotView = new RobotView({ model: robotModel });
+    var lspeedView = new global.LeftSpeedView({ model: robotModel });
+    var rspeedView = new global.RightSpeedView({ model: robotModel });
 
     socket.on('update', function (data) {
       console.log('received update : %o ', data);
