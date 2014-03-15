@@ -61,24 +61,57 @@
     });
 
     app.post('/robot/:name', function(req, res) {
-        console.log("POST /robot/" + req.params.name + " %o", req);
+//        console.log("POST /robot/" + req.params.name + " %o", req);
 
         if( bluetooth.connection !== state.CONNECTED) {
-            res.send("bluetooth not connected", 500);
+/*            res.send("bluetooth not connected", 500);
         }
-        else if( typeof robot[req.params.name] !== 'undefined' && typeof req.body.value !== 'undefined') {
+        else if( typeof robot[req.params.name] !== 'undefined' && typeof req.body.value !== 'undefined') {*/
             serial.write(new Buffer([0x47, 0x01, 0x4, 0xFF, 0xFF, 0xFF, 0xFF]), function(err, bytesWritten) {
                 if (err) {
                     console.log(err);
                 }
             });
-            console.log("Previous value of robot."+req.params.name +" = " + robot[req.params.name]);
             robot[req.params.name] = req.body.value;
-            console.log("New value of robot."+req.params.name +" = " + robot[req.params.name] + "(should be equal to "+req.body.value+")");
-            res.send(200);
+            var msg = {
+                key: "emit",
+                value: robot 
+            };
+            console.log("emit ", msg);
+            socket.emit('update', msg);
+            res.send('New value set', 200);
         }
         else {
             res.send('undefined: ' + req.params.name + ' or missing value key in data', 404);
+        }
+    });
+
+    app.post('/robot', function(req, res) {
+        console.log("POST /robot " + JSON.stringify(req.body));
+        if( typeof socket !== 'undefined') {
+            var data = req.body;
+            if( data.hasOwnProperty('leftSpeed') &&
+                data.hasOwnProperty('rightSpeed') &&
+                data.hasOwnProperty('heading') &&
+                data.hasOwnProperty('battery') &&
+                data.hasOwnProperty('ram') &&
+                data.hasOwnProperty('servoPos') &&
+                data.hasOwnProperty('distance') ) {
+                robot = data;
+                var msg = {
+                    key: "emit",
+                    value: robot 
+                };
+                console.log("emit ", msg);
+                socket.emit('update', msg);
+                res.send('message emitted', 200);
+            }
+            else {
+                res.send('data not formatted', 500);
+            }
+        }
+        else {
+            res.send('no active socket', 500);
         }
     });
 
@@ -96,35 +129,6 @@
             serial.connect(req.body.address, req.body.channel, onBtConnect );
             res.send('connection on-going', 200);
             bluetooth.connection = state.PENDING;
-        }
-    });
-
-    app.post('/emit', function(req, res) {
-        console.log("POST /emit " + JSON.stringify(req.body));
-        if( typeof socket !== 'undefined') {
-            var data = req.body;
-            if( data.hasOwnProperty('leftSpeed') &&
-                data.hasOwnProperty('rightSpeed') &&
-                data.hasOwnProperty('heading') &&
-                data.hasOwnProperty('battery') &&
-                data.hasOwnProperty('ram') &&
-                data.hasOwnProperty('servoPos') &&
-                data.hasOwnProperty('distance') ) {
-                var msg = { 
-                    key: "emit",
-                    value: req.body 
-                };
-                robot = data;
-                console.log("emit ", msg);
-                socket.emit('update', msg);
-                res.send('message emitted', 200);
-            }
-            else {
-                res.send('data not formatted', 500);
-            }
-        }
-        else {
-            res.send('no active socket', 500);
         }
     });
 

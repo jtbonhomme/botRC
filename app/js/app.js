@@ -9,8 +9,18 @@
     var RobotView = Backbone.View.extend({
         el: '#robot',
         initialize: function () {
+            $(document).on('keydown', this.keydown);
+            $(document).on('keyup', this.keyup);
             this.model.on('change', this.render, this); // attempt to bind to model change event
             this.model.fetch(); // fetching the model data from url
+        },
+        keydown: function(event) {
+            console.log('keydown');
+        },
+        keyup: function(event) {
+          console.log('keyup');
+          $.post( this.model.url + '/leftSpeed', { 'value': 0 } );
+          $.post( this.model.url + '/rightSpeed', { 'value': 0 } );
         },
         render: function () {
             console.log(this.model); // this.model has been populated!

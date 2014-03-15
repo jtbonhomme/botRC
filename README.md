@@ -9,7 +9,13 @@ Then open url :
 
 # Test
 
-    % curl -H "Content-Type:application/json" --data '{"leftSpeed":-10,"rightSpeed":20,"battery":10,"ram":0,"heading":0,"servoPos":0,"distance":32}'  -X POST localhost:3000/emit
+To set left motor speed equal to 5
+
+    % curl -H "Content-Type:application/json" --data '{"value":5}'  -X POST localhost:3000/robot/leftSpeed
+
+To post an entire configuration
+
+    % curl -H "Content-Type:application/json" --data '{"leftSpeed":-10,"rightSpeed":20,"battery":10,"ram":0,"heading":0,"servoPos":0,"distance":32}'  -X POST localhost:3000/robot
 
 # Tip
 
