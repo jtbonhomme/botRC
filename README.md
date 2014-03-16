@@ -26,3 +26,8 @@ To post an entire configuration
 Run this to automaticaly check js lint and build webapp when a file is modified:
 
     % grunt watch
+
+# Todo
+
+1. handle bluetooth disconnections
+2. add bluetooth inquire

@@ -5,18 +5,19 @@
 
     var express = require('express');
     var app     = express();
-  
-    var server = require('http').createServer(app)
-      , io     = require('socket.io').listen(server);
+    var hexy    = require('hexy');
+    var port    = 3000; 
+    var server  = require('http').createServer(app);
+    var io      = require('socket.io').listen(server);
 
-    console.log("__dirname: "+__dirname);
+    io.set('log level', 1);
     app.use(express.favicon());
     app.use(express.urlencoded());
     app.use(express.json());
     app.use(express.static(__dirname + '/../public'));
 
-    server.listen(3000);
-    console.log('Listening on port 3000');
+    server.listen(port);
+    console.log('Listening on port ' + port);
 
     var buffer = "";
     var socket;
@@ -61,26 +62,26 @@
     });
 
     app.post('/robot/:name', function(req, res) {
-//        console.log("POST /robot/" + req.params.name + " %o", req);
-
         if( bluetooth.connection !== state.CONNECTED) {
-/*            res.send("bluetooth not connected", 500);
+            res.send("bluetooth not connected", 500);
         }
-        else if( typeof robot[req.params.name] !== 'undefined' && typeof req.body.value !== 'undefined') {*/
-            serial.write(new Buffer([0x47, 0x01, 0x4, 0xFF, 0xFF, 0xFF, 0xFF]), function(err, bytesWritten) {
+        else if( typeof socket === 'undefined') {
+            res.send('no active socket', 500);
+        }
+        else if( typeof robot[req.params.name] !== 'undefined' && typeof req.body.value !== 'undefined') {
+            /*serial.write(new Buffer([0x47, 0x01, 0x4, 0xFF, 0xFF, 0xFF, 0xFF]), function(err, bytesWritten) {
                 if (err) {
                     console.log(err);
                 }
-            });
+            });*/
             robot[req.params.name] = req.body.value;
             var msg = {
                 key: "emit",
                 type: "robot",
                 value: robot 
             };
-            console.log("emit ", msg);
-            socket.emit('update', msg);
-            res.send('New value set', 200);
+                socket.emit('update', msg);
+                res.send('new value set, message emitted', 200);
         }
         else {
             res.send('undefined: ' + req.params.name + ' or missing value key in data', 404);
@@ -88,8 +89,10 @@
     });
 
     app.post('/robot', function(req, res) {
-        console.log("POST /robot " + JSON.stringify(req.body));
-        if( typeof socket !== 'undefined') {
+        if( bluetooth.connection !== state.CONNECTED) {
+            res.send("bluetooth not connected", 500);
+        }
+        else if( typeof socket !== 'undefined') {
             var data = req.body;
             if( data.hasOwnProperty('leftSpeed') &&
                 data.hasOwnProperty('rightSpeed') &&
@@ -104,9 +107,8 @@
                     type: "robot",
                     value: robot 
                 };
-                console.log("emit ", msg);
                 socket.emit('update', msg);
-                res.send('message emitted', 200);
+                res.send('new value set, message emitted', 200);
             }
             else {
                 res.send('data not formatted', 500);
@@ -135,24 +137,32 @@
                 type: "bluetooth",
                 value: bluetooth 
             };
-            console.log("emit ", msg);
-            socket.emit('update', msg);
+            if( typeof socket !== 'undefined')
+            {
+                socket.emit('update', msg);
+            }
+            else {
+                console.log("socket not connected");
+            }
             res.send('connection on-going', 200);
         }
     });
 
     function onBtConnect() {
-        console.log("[onBtConnect]");
+        console.log("Bluetooth Serial Port is connected");
         bluetooth.connection = state.CONNECTED;
         var msg = {
             key: "emit",
             type: "bluetooth",
             value: bluetooth 
         };
-        console.log("emit ", msg);
-        socket.emit('update', msg);
+        if( typeof socket !== 'undefined')
+        {
+            socket.emit('update', msg);
+        }
     }
 
+    // is not implemented in node-bluetooth-serial
     serial.on('finished', function(data) {
         console.log("End of bluetooth connection");
         bluetooth.connection = 0;
@@ -161,15 +171,40 @@
             type: "bluetooth",
             value: bluetooth 
         };
-        console.log("emit ", msg);
-        socket.emit('update', msg);
+        if( typeof socket !== 'undefined')
+        {
+            socket.emit('update', msg);
+        }
     });
 
+    // this event is fired when data are received on bluetooth
     serial.on('data', function(data) {
         buffer+=data.toString();
-        if( buffer.match(/^.*\r\n$/) !== null) {
-            console.log('Received: %o ' + buffer);
-            buffer = "";
+        // looking for CRLF in received data
+        var regex =  /\r\n/;
+        // if buffer contains a CRLF
+        if( buffer.match(regex) !== null) {
+            var array = buffer.split(regex);
+            try {
+                var json = JSON.parse(array[0]);
+                if( typeof robot[json.key] !== 'undefined') {
+                    robot[json.key] = json.value;
+                    var msg = {
+                        key: "emit",
+                        type: "robot",
+                        value: robot 
+                    };
+                    if( typeof socket !== 'undefined')
+                    {
+                        socket.emit('update', msg);
+                    }
+                }
+
+            } catch (e) {
+//                 console.error("Parsing error of " + array[0] + " : ", e); 
+            }
+            // continue with the remaining part of the buffer
+            buffer = array[1];
         }
     });
 

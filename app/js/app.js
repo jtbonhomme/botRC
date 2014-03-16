@@ -24,7 +24,6 @@
           $.post( '/robot/rightSpeed', { 'value': 0 } );
         },
         render: function () {
-            console.log(this.model); // this.model has been populated!
             var obj = this.model.attributes;
             this.el.innerHTML = "";
             this.el.innerHTML += "heading    : " + obj.heading + "<br>";
@@ -53,7 +52,6 @@
 
     // wait for updates
     socket.on('update', function (data) {
-        console.log('received update : %o ', data);
         if( data.type === "bluetooth") {
             bluetoothModel.fetch(); // fetch the model from url on socket notification
         }
