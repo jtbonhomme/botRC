@@ -31,7 +31,6 @@
             this.el.innerHTML += "servoPos   : " + obj.servoPos + "<br>";
             this.el.innerHTML += "distance   : " + obj.distance + "<br>";
         }
-
     });
 
     // initialize socket
