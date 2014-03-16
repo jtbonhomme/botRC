@@ -1,4 +1,5 @@
 // mincer directives processor are listed bellow
+//= require_tree libs
 //= require_tree views
 
 (function(global) {

@@ -20,10 +20,16 @@
         </tr>
         <tr>
           <td width="50%" align="center">
-            <h3>Battery</h3><h1><div id="battery"></div></h1>
+            <h3>Battery</h3>
+            <div style="display: inline; width: 150px; height: 200px;">
+              <input class="dial battery" readonly value="50">
+            </div>
           </td>
           <td width="50%" align="center">
-            <h3>Ram</h3><h1><div id="ram"></div></h1>
+            <h3>Ram</h3>
+            <div style="display: inline; width: 150px; height: 200px;">
+              <input class="dial ram" readonly value="50">
+            </div>
           </td>
         </tr>
       </table>
@@ -35,6 +41,7 @@
           Script shall be placed after html (otherwise div are undefined when views are initialized)
       -->
     <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.knob.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="js/backbone-min.js"></script>
     <script src="js/d3.v3.min.js"></script>

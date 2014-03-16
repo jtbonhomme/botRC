@@ -1,4 +1,4 @@
-# botRC
+# Get started
 
     % npm install
     % grunt
@@ -6,6 +6,10 @@
 
 Then open url :
     http://localhost:3000/
+
+# How does it work
+
+TODO
 
 # Test
 
@@ -26,6 +30,10 @@ To post an entire configuration
 Run this to automaticaly check js lint and build webapp when a file is modified:
 
     % grunt watch
+
+# Thanks
+
+* https://github.com/aterrien/jQuery-Knob
 
 # Todo
 

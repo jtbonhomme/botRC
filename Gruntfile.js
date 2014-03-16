@@ -101,7 +101,8 @@ module.exports = function(grunt) {
     jshint: {
       files: [
         'Gruntfile.js',
-        '<%= dirs.js %><%= files.js %>'
+        '<%= dirs.js %><%= files.js %>',
+        '!<%= dirs.js %>/libs/knob.js'
       ],
       options: {
         jshintrc: '.jshintrc'

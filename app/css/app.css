@@ -1,9 +1,12 @@
+
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+
 body {
   width: 640px;
   height: 360px;
   overflow: hidden;
   background-color: #252525;
-  font-family: 'Track';
+  font-family: 'Helvetica Neue';
   font-size: 20px;
   color: #e0e0e0;
   -webkit-font-smoothing: antialiased;
@@ -24,3 +27,5 @@ body {
   color: #5050e0;
   text-align: center;
 }
+
+
