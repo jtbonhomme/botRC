@@ -10,10 +10,12 @@
     var BluetoothView = Backbone.View.extend({
         el: '#bluetooth',
         isConnected: false,
+        events: {
+            'click #connect': 'onClickConnect'
+        },
         initialize: function () {
             this.model.on('change:connection', this.render, this); // attempt to bind to model change event
             this.model.fetch(); // fetching the model data from url
-            $('#connect').click(this.onClickConnect, this);
         },
         render: function () {
             var obj = this.model.attributes;
