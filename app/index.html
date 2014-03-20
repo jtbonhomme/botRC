@@ -11,30 +11,59 @@
     <div id="container">
       <table width="100%">
         <tr>
-          <td width="50%" align="center">
-            <h3>Left motor speed</h3><h1><div id="lspeed"></div></h1>
+          <td width="33%" align="center">
+            <h4>battery level</h4>
+            <div style="display: inline; width: 100px; height: 100px;">
+              <!--<input class="dial battery" readonly value="50">-->
+              <input class="dial battery" readonly data-width="90" data-displayPrevious=true data-fgColor="#ffec03" data-skin="tron" data-thickness=".2" value="0">
+            </div>
           </td>
-          <td width="50%" align="center">
-            <h3>Right Motor Speed</h3><h1><div id="rspeed"></div></h1>
+          <td width="33%" align="center">
+            <h4>servo pos</h4>
+            <div style="display: inline; width: 100px; height: 100px;">
+              <input class="dial servoPos" readonly data-width="90" data-bgColor="AAAAAA" data-fgColor="#eedc03" data-width="90" data-min="-90" data-max="90" data-angleOffset=-90 data-cursor=true data-angleArc=180 value="0">
+            </div>
+          </td>
+          <td width="33%" align="center">
+            <h4>ram</h4>
+            <div style="display: inline; width: 100px; height: 100px;">
+              <!--<input class="dial ram" readonly value="50">-->
+              <input class="dial ram" readonly data-width="90" data-displayPrevious=true data-fgColor="#ffec03" data-skin="tron" data-thickness=".2" value="0">
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center">
+            <h4>left motor speed</h4>
+            <div style="display: inline; width: 100px; height: 100px;">
+              <input class="dial" id="lspeed" readonly data-fgColor="#ffec03" data-width="90" data-min="-400" data-max="400" data-angleOffset=-180 data-cursor=true data-skin="tron" data-thickness=".2" value="0">
+            </div>
+          </td>
+          <td align="center">
+            <h4>heading</h4>
+            <div style="display: inline; width: 100px; height: 100px;">
+              <input class="dial heading" readonly data-width="90" data-bgColor="AAAAAA" data-fgColor="#eedc03" data-width="90" data-min="-180" data-max="180" data-angleOffset=-180 data-cursor=true value="0">
+            </div>
+          </td>
+          <td align="center">
+            <h4>right motor speed</h4>
+            <div style="display: inline; width: 100px; height: 100px;">
+              <input class="dial" id="rspeed" readonly data-fgColor="#ffec03" data-width="90" data-min="-400" data-max="400" data-angleOffset=-180 data-cursor=true data-skin="tron" data-thickness=".2" value="0">
+            </div>
           </td>
         </tr>
         <tr>
-          <td width="50%" align="center">
-            <h3>Battery</h3>
-            <div style="display: inline; width: 150px; height: 200px;">
-              <input class="dial battery" readonly value="50">
-            </div>
-          </td>
-          <td width="50%" align="center">
-            <h3>Ram</h3>
-            <div style="display: inline; width: 150px; height: 200px;">
-              <input class="dial ram" readonly value="50">
-            </div>
-          </td>
+          <div class="robot" id="robot"></div>
+        </tr>
+        <tr>
+          <div class="bluetoothclass" id="bluetooth">
+            <button href="#fakelink" readonly class="btn btn-block btn-lg btn-info" id="connect">Connect Bluetooth</a>
+          </div>
         </tr>
       </table>
     </div>
-    <div class="robot" id="robot"></div>
+
 <!--
     <table width="100%">
       <tr>
@@ -47,9 +76,6 @@
       </tr>
     </table>
 -->
-    <div class="bluetoothclass" id="bluetooth">
-      <button href="#fakelink" class="btn btn-block btn-lg btn-info" id="connect">Connect Bluetooth</a>
-    </div>
 
     <!-- 
           Script shall be placed after html (otherwise div are undefined when views are initialized)
