@@ -44,6 +44,7 @@
     var robotView = new RobotView({ model: robotModel });
     var lspeedView = new global.LeftSpeedView({ model: robotModel });
     var rspeedView = new global.RightSpeedView({ model: robotModel });
+    var headingView = new global.HeadingView({ model: robotModel });
     var ramView = new global.RamView({ model: robotModel });
     var batteryView = new global.BatteryView({ model: robotModel });
 

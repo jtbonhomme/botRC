@@ -2,7 +2,6 @@
     'use strict';
 
     var LeftSpeedView = Backbone.View.extend({
-        el: '#lspeed',
         initialize: function () {
             this.model.on('change:leftSpeed', this.render, this); // attempt to bind to model change event
             this.model.fetch(); // fetching the model data from url
@@ -10,13 +9,13 @@
         render: function () {
             console.log(this.model); // this.model has been populated!
             var obj = this.model.attributes;
-            this.el.innerHTML = obj.leftSpeed;
+            var $el = $("#lspeed");
+//            $el.val(obj.leftSpeed).trigger("change");
         }
 
     });
 
     var RightSpeedView = Backbone.View.extend({
-        el: '#rspeed',
         initialize: function () {
             this.model.on('change:rightSpeed', this.render, this); // attempt to bind to model change event
             this.model.fetch(); // fetching the model data from url
@@ -24,7 +23,8 @@
         render: function () {
             console.log(this.model); // this.model has been populated!
             var obj = this.model.attributes;
-            this.el.innerHTML = obj.rightSpeed;
+            var $el = $("#rspeed");
+//            $el.val(obj.leftSpeed).trigger("change");
         }
 
     });
