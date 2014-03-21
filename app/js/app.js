@@ -9,27 +9,49 @@
     var BluetoothModel = Backbone.Model.extend({url: 'http://localhost:3000/bluetooth'});
 
     var RobotView = Backbone.View.extend({
-        el: '#robot',
+        el: 'document',
+        leftSpeed:  0,
+        rightSpeed: 0,
+        events: {
+            'keydown': 'this.onKeydown',
+            'keyup':   'this.onKeyup'
+        },
         initialize: function () {
-            $(document).on('keydown', this.keydown);
-            $(document).on('keyup', this.keyup);
+            $(document).on('keydown', this.onKeydown);
+            $(document).on('keyup', this.onKeyup);
             this.model.on('change', this.render, this); // attempt to bind to model change event
             this.model.fetch(); // fetching the model data from url
         },
-        keydown: function(event) {
-            console.log('keydown');
+        onKeydown: function(event) {
+            switch(event.keyCode) {
+                case 38: // up
+                    this.leftSpeed += 50;
+                    this.rightSpeed += 50;
+                    break;
+                case 40: // down
+                    this.leftSpeed -= 50;
+                    this.rightSpeed -= 50;
+                    break;
+                case 37: // left
+                    this.leftSpeed -= 50;
+                    this.rightSpeed += 50;
+                    break;
+                case 39: // right
+                    this.leftSpeed += 50;
+                    this.rightSpeed -= 50;
+                    break;
+            }
+            $.post( '/robot/leftSpeed', { 'value': this.leftSpeed } );
+            $.post( '/robot/rightSpeed', { 'value': this.rightSpeed } );
         },
-        keyup: function(event) {
-          console.log('keyup');
-          $.post( '/robot/leftSpeed', { 'value': 0 } );
-          $.post( '/robot/rightSpeed', { 'value': 0 } );
+        onKeyup: function(event) {
+            this.leftSpeed =  0;
+            this.rightSpeed = 0;
+            $.post( '/robot/leftSpeed', { 'value': this.leftSpeed } );
+            $.post( '/robot/rightSpeed', { 'value': this.rightSpeed } );
         },
         render: function () {
             var obj = this.model.attributes;
-            this.el.innerHTML = "";
-            this.el.innerHTML += "heading    : " + obj.heading + "<br>";
-            this.el.innerHTML += "servoPos   : " + obj.servoPos + "<br>";
-            this.el.innerHTML += "distance   : " + obj.distance + "<br>";
         }
     });
 
@@ -47,6 +69,7 @@
     var headingView = new global.HeadingView({ model: robotModel });
     var ramView = new global.RamView({ model: robotModel });
     var batteryView = new global.BatteryView({ model: robotModel });
+    var distanceView = new global.DistanceView({ model: robotModel });
 
     // create bluetooth view
     var bluetoothView = new global.BluetoothView({ model: bluetoothModel });

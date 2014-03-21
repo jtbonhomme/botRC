@@ -69,11 +69,34 @@
             res.send('no active socket', 500);
         }
         else if( typeof robot[req.params.name] !== 'undefined' && typeof req.body.value !== 'undefined') {
-            /*serial.write(new Buffer([0x47, 0x01, 0x4, 0xFF, 0xFF, 0xFF, 0xFF]), function(err, bytesWritten) {
-                if (err) {
-                    console.log(err);
-                }
-            });*/
+            var command   = 0;
+            var sign      = 0;
+            var msb;
+            var lsb;
+            var value     = req.body.value;
+            if( value < 0 ) {
+                sign = 1;
+                value = -value;
+            }
+            msb       = (value&0xFF00)>8;
+            lsb       = (value&0x00FF);
+
+            // send command via serial bluetooth
+            if( req.params.name === 'leftSpeed') {
+                serial.write(new Buffer([0x47, 0x01, sign, msb, lsb]), function(err, bytesWritten) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            } else if( req.params.name === 'rightSpeed') {
+                serial.write(new Buffer([0x47, 0x02, sign, msb, lsb]), function(err, bytesWritten) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }
+
+            // update listeners
             robot[req.params.name] = req.body.value;
             var msg = {
                 key: "emit",

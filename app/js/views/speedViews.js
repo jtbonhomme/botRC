@@ -7,10 +7,9 @@
             this.model.fetch(); // fetching the model data from url
         },
         render: function () {
-            console.log(this.model); // this.model has been populated!
             var obj = this.model.attributes;
             var $el = $("#lspeed");
-//            $el.val(obj.leftSpeed).trigger("change");
+            $el.val(obj.leftSpeed).trigger("change");
         }
 
     });
@@ -21,14 +20,14 @@
             this.model.fetch(); // fetching the model data from url
         },
         render: function () {
-            console.log(this.model); // this.model has been populated!
             var obj = this.model.attributes;
             var $el = $("#rspeed");
-//            $el.val(obj.leftSpeed).trigger("change");
+            $el.val(obj.rightSpeed).trigger("change");
         }
 
     });
 
     global.RightSpeedView = RightSpeedView;
     global.LeftSpeedView = LeftSpeedView;
+
 })(this);

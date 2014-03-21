@@ -11,20 +11,20 @@
     <div id="container">
       <table width="100%">
         <tr>
-          <td width="33%" align="center">
+          <td align="center">
             <h4>battery level</h4>
             <div style="display: inline; width: 100px; height: 100px;">
               <!--<input class="dial battery" readonly value="50">-->
               <input class="dial battery" readonly data-width="90" data-displayPrevious=true data-fgColor="#ffec03" data-skin="tron" data-thickness=".2" value="0">
             </div>
           </td>
-          <td width="33%" align="center">
+          <td align="center">
             <h4>servo pos</h4>
             <div style="display: inline; width: 100px; height: 100px;">
               <input class="dial servoPos" readonly data-width="90" data-bgColor="AAAAAA" data-fgColor="#eedc03" data-width="90" data-min="-90" data-max="90" data-angleOffset=-90 data-cursor=true data-angleArc=180 value="0">
             </div>
           </td>
-          <td width="33%" align="center">
+          <td align="center">
             <h4>ram</h4>
             <div style="display: inline; width: 100px; height: 100px;">
               <!--<input class="dial ram" readonly value="50">-->
@@ -53,29 +53,22 @@
             </div>
           </td>
         </tr>
+      </table>
+      <table width="100%">
         <tr>
-          <div class="robot" id="robot"></div>
-        </tr>
-        <tr>
-          <div class="bluetoothclass" id="bluetooth">
-            <button href="#fakelink" readonly class="btn btn-block btn-lg btn-info" id="connect">Connect Bluetooth</a>
-          </div>
+          <td align="center">
+            <progress max="400" min="0" value="60" id="distance">
+              <strong>Progress: 60% done.</strong>
+            </progress>
+          </td>
+          <td align="center">
+            <div class="bluetoothclass" id="bluetooth">
+              <button href="#fakelink" readonly class="btn btn-block btn-lg btn-info" id="connect">Connect Bluetooth</a>
+            </div>
+          </td>
         </tr>
       </table>
     </div>
-
-<!--
-    <table width="100%">
-      <tr>
-        <td width="50%" align="center">
-          <a href="#fakelink" class="btn btn-block btn-lg btn-info" id="connect">Connect Bluetooth</a>
-        </td>
-        <td width="50%" align="center">
-          <div class="bluetooth" id="bluetooth"></div>
-        </td>
-      </tr>
-    </table>
--->
 
     <!-- 
           Script shall be placed after html (otherwise div are undefined when views are initialized)
