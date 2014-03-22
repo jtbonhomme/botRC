@@ -9,7 +9,7 @@
         render: function () {
             var obj = this.model.attributes;
             var $el = $(".battery");
-            var percent = Math.round(obj.battery/4000*100);
+            var percent = Math.round(obj.battery/5535*100);
             $el.val(percent).trigger("change");
         }
     });
