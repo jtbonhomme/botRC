@@ -10,8 +10,7 @@
 
     var RobotView = Backbone.View.extend({
         el: 'document',
-        leftSpeed:  0,
-        rightSpeed: 0,
+        speed:  0,
         events: {
             'keydown': 'this.onKeydown',
             'keyup':   'this.onKeyup'
@@ -25,30 +24,39 @@
         onKeydown: function(event) {
             switch(event.keyCode) {
                 case 38: // up
-                    this.leftSpeed += 50;
-                    this.rightSpeed += 50;
+                    if(this.speed < 200 ) {
+                        this.speed += 100;
+                    }
+                    $.post( '/robot/up', { 'value': this.speed } );
                     break;
                 case 40: // down
-                    this.leftSpeed -= 50;
-                    this.rightSpeed -= 50;
+                    if(this.speed < 200 ) {
+                        this.speed += 100;
+                    }
+                    $.post( '/robot/down', { 'value': this.speed } );
                     break;
                 case 37: // left
-                    this.leftSpeed -= 50;
-                    this.rightSpeed += 50;
+                    this.speed = 200;
+                    $.post( '/robot/left', { 'value': this.speed } );
                     break;
                 case 39: // right
-                    this.leftSpeed += 50;
-                    this.rightSpeed -= 50;
+                    this.speed = 200;
+                    $.post( '/robot/right', { 'value': this.speed } );
+                    break;
+                case 65: // servo left
+                    this.speed = 200;
+                    $.post( '/robot/servo', { 'value': 0 } );
+                    break;
+                case 90: // servo right
+                    this.speed = 200;
+                    $.post( '/robot/servo', { 'value': 100 } );
                     break;
             }
-            $.post( '/robot/leftSpeed', { 'value': this.leftSpeed } );
-            $.post( '/robot/rightSpeed', { 'value': this.rightSpeed } );
         },
         onKeyup: function(event) {
-            this.leftSpeed =  0;
-            this.rightSpeed = 0;
-            $.post( '/robot/leftSpeed', { 'value': this.leftSpeed } );
-            $.post( '/robot/rightSpeed', { 'value': this.rightSpeed } );
+            this.speed =  0;
+            $.post( '/robot/up', { 'value': this.speed } );
+            $.post( '/robot/up', { 'value': this.speed } );
         },
         render: function () {
             var obj = this.model.attributes;
