@@ -5,7 +5,7 @@
     % node api
 
 Then open url :
-    http://localhost:3000/
+    [http://localhost:3000/](http://localhost:3000/)
 
 # How does it work
 
