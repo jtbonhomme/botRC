@@ -9,7 +9,10 @@ Then open url :
 
 # How does it work
 
-TODO
+You can use it with a small arduino bluetooth controlled robot.
+Here you can find the sketch of a working Zumo robot.
+
+    https://github.com/jtbonhomme/MyZumoBot
 
 # Test
 
@@ -24,6 +27,10 @@ To set left motor speed equal to 5
 To post an entire configuration
 
     % curl -H "Content-Type:application/json" --data '{"leftSpeed":-10,"rightSpeed":20,"battery":10,"ram":0,"heading":0,"servoPos":0,"distance":32}'  -X POST localhost:3000/robot
+
+# Server installation
+
+    
 
 # Tip
 
